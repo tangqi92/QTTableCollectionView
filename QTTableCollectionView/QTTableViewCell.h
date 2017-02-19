@@ -15,8 +15,10 @@ static NSString *const UserCollectionViewCellID = @"UserCollectionViewCellID";
 
 @interface QTTableViewCell : UITableViewCell
 
+/// UITableViewCell 中嵌套 CollectionView。
 @property (nonatomic, strong) QTCollectionView *collectionView;
 
+/// 设置 CollectionView 的 DataSource 与 Delegate。
 - (void)setCollectionViewDataSourceDelegate:(id<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>)dataSourceDelegate indexPath:(NSIndexPath *)indexPath;
 
 @end

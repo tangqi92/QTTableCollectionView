@@ -17,15 +17,16 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (!(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) return nil;
 
+    // 使用 UICollectionViewFlowLayout 进行布局。
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.sectionInset = UIEdgeInsetsMake(0, 12, 0, 12);
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     self.collectionView = [[QTCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    // Cell Explore
+    // 注册 Explore Cell
     [self.collectionView registerClass:[QTExploresCollectionViewCell class] forCellWithReuseIdentifier:ExploreCollectionViewCellID];
-    // Cell Board
+    // 注册 Board Cell
     [self.collectionView registerClass:[QTBoardsCollectionViewCell class] forCellWithReuseIdentifier:BoardCollectionViewCellID];
-    // Cell User
+    // 注册 User Cell
     [self.collectionView registerClass:[QTUsersCollectionViewCell class] forCellWithReuseIdentifier:UserCollectionViewCellID];
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.showsHorizontalScrollIndicator = NO;

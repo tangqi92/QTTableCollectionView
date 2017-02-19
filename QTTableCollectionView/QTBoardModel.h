@@ -10,4 +10,6 @@
 
 @interface QTBoardModel : NSObject
 
+// TODO: 请根据自身需求，定义相关 Model 类与其属性。
+
 @end

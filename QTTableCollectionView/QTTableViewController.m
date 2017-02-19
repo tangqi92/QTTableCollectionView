@@ -16,30 +16,37 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 
 static NSString *const kCellIdentifier = @"CellIdentifier";
+/// 仅用于测试
+static NSInteger const kNumberOfItemsInSection = 10;
 @interface QTTableViewController ()
 
+// 用于记录 CollectionView 内容的偏移量。
 @property (nonatomic, strong) NSMutableDictionary *contentOffsetDictionary;
+// DataSource / 数据源。
 @property (nonatomic, strong) NSMutableArray *dataSourceExplores;
 @property (nonatomic, strong) NSMutableArray *dataSourceBoards;
 @property (nonatomic, strong) NSMutableArray *dataSourceUsers;
-@property (nonatomic, assign) BOOL shouldHideExplores;
-@property (nonatomic, assign) BOOL shouldHideBoards;
-@property (nonatomic, assign) BOOL shouldHideUsers;
 
 @end
 
 @implementation QTTableViewController
 
+#pragma mark - Lifecycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    // 相关初始化操作
     self.dataSourceExplores = @[].mutableCopy;
     self.dataSourceBoards = @[].mutableCopy;
     self.dataSourceUsers = @[].mutableCopy;
     self.contentOffsetDictionary = [NSMutableDictionary dictionary];
+
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[QTTableViewCell class] forCellReuseIdentifier:kCellIdentifier];
+
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     @weakify(self);
@@ -56,10 +63,6 @@ static NSString *const kCellIdentifier = @"CellIdentifier";
 
 #pragma mark - UITableViewDataSource Methods
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 1;
 }
@@ -70,8 +73,12 @@ static NSString *const kCellIdentifier = @"CellIdentifier";
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(QTTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(QTTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    // 为 CollectionView 设置不同的 collectionViewCellType 用以区别。
     if (indexPath.section == 0) {
         cell.collectionView.collectionViewCellType = CellTypeExplores;
     } else if (indexPath.section == 1) {
@@ -80,10 +87,12 @@ static NSString *const kCellIdentifier = @"CellIdentifier";
         cell.collectionView.collectionViewCellType = CellTypeUsers;
     }
 
+    // 设置 CollectionView 的 DataSource 与 Delegate 及所处的 indexPath。
     [cell setCollectionViewDataSourceDelegate:self indexPath:indexPath];
     NSInteger index = cell.collectionView.indexPath.row;
 
     CGFloat horizontalOffset = [self.contentOffsetDictionary[[@(index) stringValue]] floatValue];
+    // 设置 CollectionView 的 ContentOffset。
     [cell.collectionView setContentOffset:CGPointMake(horizontalOffset, 0)];
 }
 
@@ -98,18 +107,12 @@ static NSString *const kCellIdentifier = @"CellIdentifier";
 #pragma mark - UITableViewDelegate Methods
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.section) {
-        case 0:
-            return 132;
-            break;
-        case 1:
-            return 190;
-            break;
-        case 2:
-            return 170;
-            break;
-        default:
-            break;
+    if (indexPath.section == 0) {
+        return 132;
+    } else if (indexPath.section == 1) {
+        return 190;
+    } else if (indexPath.section == 2) {
+        return 170;
     }
     return 0;
 }
@@ -119,16 +122,17 @@ static NSString *const kCellIdentifier = @"CellIdentifier";
 - (NSInteger)collectionView:(QTCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     switch (collectionView.collectionViewCellType) {
         case CellTypeExplores:
-            //            return self.dataSourceExplores.count;
-            return 10;
+            return kNumberOfItemsInSection;
+            // TODO: 返回真实的数据。
+//            return self.dataSourceExplores.count;
             break;
         case CellTypeBoards:
-            //            return self.dataSourceBoards.count;
-            return 10;
+            return kNumberOfItemsInSection;
+//            return self.dataSourceBoards.count;
             break;
         case CellTypeUsers:
-            //            return self.dataSourceUsers.count;
-            return 10;
+            return kNumberOfItemsInSection;
+//            return self.dataSourceUsers.count;
             break;
         default:
             break;
@@ -142,48 +146,71 @@ static NSString *const kCellIdentifier = @"CellIdentifier";
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:ExploreCollectionViewCellID forIndexPath:indexPath];
         if ([cell isKindOfClass:[QTExploresCollectionViewCell class]]) {
             QTExploresCollectionViewCell *cellExplore = (QTExploresCollectionViewCell *) cell;
-            [cellExplore setup];
+            [cellExplore setupModel];
+            // TODO: 获取到相应的 Model 后进行赋值操作
+//            if (self.dataSourceExplores.count > 0) {
+//                cellExplore.exploreModel = self.dataSourceExplores[indexPath.row];
+//            }
         }
     } else if (collectionView.collectionViewCellType == CellTypeBoards) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:BoardCollectionViewCellID forIndexPath:indexPath];
         if ([cell isKindOfClass:[QTBoardsCollectionViewCell class]]) {
             QTBoardsCollectionViewCell *cellBoard = (QTBoardsCollectionViewCell *) cell;
-            [cellBoard setup];
+            [cellBoard setupModel];
+//            if (self.dataSourceBoards.count > 0) {
+//                cellBoard.boardModel = self.dataSourceBoards[indexPath.row];
+//            }
         }
     } else if (collectionView.collectionViewCellType == CellTypeUsers) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:UserCollectionViewCellID forIndexPath:indexPath];
         if ([cell isKindOfClass:[QTUsersCollectionViewCell class]]) {
             QTUsersCollectionViewCell *cellUser = (QTUsersCollectionViewCell *) cell;
-            [cellUser setup];
+            [cellUser setupModel];
+//            if (self.dataSourceUsers.count > 0) {
+//                cellUser.userModel = self.dataSourceUsers[indexPath.row];
+//            }
         }
     }
     return cell;
 }
 
 - (void)collectionView:(QTCollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger index = indexPath.row;
-    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
-    if (collectionView.collectionViewCellType == CellTypeExplores) {
-        //
-        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"Selected Item: %ld", index]];
-    } else if (collectionView.collectionViewCellType == CellTypeBoards) {
-        //
-        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"Selected Item: %ld", index]];
-    } else if (collectionView.collectionViewCellType == CellTypeUsers) {
-        //
-        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"Selected Item: %ld", index]];
+    NSInteger position = indexPath.row;
+    switch (collectionView.collectionViewCellType) {
+        case CellTypeExplores: {
+            // 获取相应的 Moddel。
+//            QTExploreModel *exploreModel = self.dataSourceExplores[indexPath.row];
+            [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"Selected CellTypeExplores Item: %ld", position]];
+            break;
+        }
+        case CellTypeBoards: {
+//            QTBoardModel *boardModel = self.dataSourceBoards[indexPath.row];
+            [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"Selected CellTypeBoards Item: %ld", position]];
+            break;
+        }
+        case CellTypeUsers: {
+//            QTUserModel *userModel = self.dataSourceUsers[indexPath.row];
+            [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"Selected CellTypeUsers Item: %ld", position]];
+            break;
+        }
+        default:
+            break;
     }
 }
 
 - (CGSize)collectionView:(QTCollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (collectionView.collectionViewCellType == CellTypeExplores) {
-        return CGSizeMake(132, 132);
-    } else if (collectionView.collectionViewCellType == CellTypeBoards) {
-        return CGSizeMake(132, 190);
-    } else if (collectionView.collectionViewCellType == CellTypeUsers) {
-        return CGSizeMake(132, 170);
-    } else {
-        return CGSizeZero;
+    switch (collectionView.collectionViewCellType) {
+        case CellTypeExplores:
+            return CGSizeMake(132, 132);
+            break;
+        case CellTypeBoards:
+            return CGSizeMake(132, 190);
+            break;
+        case CellTypeUsers:
+            return CGSizeMake(132, 170);
+            break;
+        default:
+            break;
     }
 }
 
@@ -198,7 +225,12 @@ static NSString *const kCellIdentifier = @"CellIdentifier";
     self.contentOffsetDictionary[[@(index) stringValue]] = @(horizontalOffset);
 }
 
+// 该方法仅用于测试：模拟刷新操作。
 - (void)refreshData {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.refreshControl endRefreshing];
+        [SVProgressHUD showSuccessWithStatus:@"刷新成功"];
+    });
 }
 
 @end

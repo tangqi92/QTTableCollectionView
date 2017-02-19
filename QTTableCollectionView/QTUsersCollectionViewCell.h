@@ -12,6 +12,7 @@
 @interface QTUsersCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) QTUserModel *userModel;
-- (void)setup;
+/// 该方仅法用于测试。
+- (void)setupModel;
 
 @end

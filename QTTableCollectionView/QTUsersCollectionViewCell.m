@@ -12,6 +12,7 @@
 
 @interface QTUsersCollectionViewCell ()
 
+// TODO: 请根据自身需求，自定义 CollectionViewCell。
 @property (nonatomic, strong) UIView *coverView;
 
 @end
@@ -42,10 +43,10 @@
 }
 
 - (void)setUserModel:(QTUserModel *)userModel {
-    // TODO:
+    // TODO: 数据填充
 }
 
-- (void)setup {
+- (void)setupModel {
     self.coverView.backgroundColor = [UIColor blueColor];
 }
 

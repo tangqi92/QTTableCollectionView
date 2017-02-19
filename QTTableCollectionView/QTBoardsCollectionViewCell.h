@@ -12,6 +12,7 @@
 @interface QTBoardsCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) QTBoardModel *boardModel;
-- (void)setup;
+/// 该方仅法用于测试。
+- (void)setupModel;
 
 @end

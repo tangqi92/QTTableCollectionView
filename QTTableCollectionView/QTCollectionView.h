@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 三种类型的 Cell。
 typedef NS_ENUM(NSInteger, CollectionViewCellType) {
     CellTypeExplores = 0,
     CellTypeBoards,
@@ -16,6 +17,7 @@ typedef NS_ENUM(NSInteger, CollectionViewCellType) {
 
 @interface QTCollectionView : UICollectionView
 
+/// indexPath 用于查询相应的 Model，并填充至 Cell。
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, assign) CollectionViewCellType collectionViewCellType;
 

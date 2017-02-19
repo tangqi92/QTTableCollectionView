@@ -12,7 +12,7 @@
 @interface QTExploresCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) QTExploreModel *exploreModel;
-// Used for testing
-- (void)setup;
+/// 该方仅法用于测试。
+- (void)setupModel;
 
 @end
