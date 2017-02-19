@@ -36,20 +36,17 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
     [_coverView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.contentView);
     }];
 }
 
 - (void)setExploreModel:(QTExploreModel *)exploreModel {
-    //
-    self.coverView.backgroundColor = [UIColor redColor];
+    // TODO:
 }
 
 - (void)setup {
     self.coverView.backgroundColor = [UIColor redColor];
-
 }
 
 @end

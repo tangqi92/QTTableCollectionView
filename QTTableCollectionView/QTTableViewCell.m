@@ -30,6 +30,7 @@
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.showsHorizontalScrollIndicator = NO;
     [self.contentView addSubview:self.collectionView];
+    self.backgroundColor= [UIColor whiteColor];
 
     return self;
 }

@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QTUserModel.h"
 
 @interface QTUsersCollectionViewCell : UICollectionViewCell
+
+@property (nonatomic, strong) QTUserModel *userModel;
+- (void)setup;
 
 @end

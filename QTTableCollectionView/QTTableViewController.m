@@ -13,6 +13,7 @@
 #import "QTBoardsCollectionViewCell.h"
 #import "QTUsersCollectionViewCell.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 
 static NSString *const kCellIdentifier = @"CellIdentifier";
 @interface QTTableViewController ()
@@ -36,11 +37,10 @@ static NSString *const kCellIdentifier = @"CellIdentifier";
     self.dataSourceBoards = @[].mutableCopy;
     self.dataSourceUsers = @[].mutableCopy;
     self.contentOffsetDictionary = [NSMutableDictionary dictionary];
-    
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[QTTableViewCell class] forCellReuseIdentifier:kCellIdentifier];
-    
+
     self.refreshControl = [[UIRefreshControl alloc] init];
     @weakify(self);
     [[self.refreshControl rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
@@ -57,11 +57,11 @@ static NSString *const kCellIdentifier = @"CellIdentifier";
 #pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -71,27 +71,34 @@ static NSString *const kCellIdentifier = @"CellIdentifier";
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(QTTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (indexPath.row == 0) {
-                cell.collectionView.collectionViewCellType = CellTypeExplores;
-    } else if (indexPath.row == 1) {
-               cell.collectionView.collectionViewCellType = CellTypeBoards;
-    } else if (indexPath.row == 2) {
-                cell.collectionView.collectionViewCellType = CellTypeUsers;
+
+    if (indexPath.section == 0) {
+        cell.collectionView.collectionViewCellType = CellTypeExplores;
+    } else if (indexPath.section == 1) {
+        cell.collectionView.collectionViewCellType = CellTypeBoards;
+    } else if (indexPath.section == 2) {
+        cell.collectionView.collectionViewCellType = CellTypeUsers;
     }
 
-    
     [cell setCollectionViewDataSourceDelegate:self indexPath:indexPath];
     NSInteger index = cell.collectionView.indexPath.row;
-    
+
     CGFloat horizontalOffset = [self.contentOffsetDictionary[[@(index) stringValue]] floatValue];
     [cell.collectionView setContentOffset:CGPointMake(horizontalOffset, 0)];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 24;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return CGFLOAT_MIN;
 }
 
 #pragma mark - UITableViewDelegate Methods
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.row) {
+    switch (indexPath.section) {
         case 0:
             return 132;
             break;
@@ -112,15 +119,15 @@ static NSString *const kCellIdentifier = @"CellIdentifier";
 - (NSInteger)collectionView:(QTCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     switch (collectionView.collectionViewCellType) {
         case CellTypeExplores:
-//            return self.dataSourceExplores.count;
+            //            return self.dataSourceExplores.count;
             return 10;
             break;
         case CellTypeBoards:
-//            return self.dataSourceBoards.count;
+            //            return self.dataSourceBoards.count;
             return 10;
             break;
         case CellTypeUsers:
-//            return self.dataSourceUsers.count;
+            //            return self.dataSourceUsers.count;
             return 10;
             break;
         default:
@@ -130,45 +137,41 @@ static NSString *const kCellIdentifier = @"CellIdentifier";
 
 - (UICollectionViewCell *)collectionView:(QTCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = nil;
-    
+
     if (collectionView.collectionViewCellType == CellTypeExplores) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:ExploreCollectionViewCellID forIndexPath:indexPath];
         if ([cell isKindOfClass:[QTExploresCollectionViewCell class]]) {
             QTExploresCollectionViewCell *cellExplore = (QTExploresCollectionViewCell *) cell;
             [cellExplore setup];
-
-            if (self.dataSourceExplores.count > 0) {
-                //                cellExplore.explore = self.dataSourceExplores[indexPath.row];
-                [cellExplore setup];
-            }
         }
     } else if (collectionView.collectionViewCellType == CellTypeBoards) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:BoardCollectionViewCellID forIndexPath:indexPath];
         if ([cell isKindOfClass:[QTBoardsCollectionViewCell class]]) {
             QTBoardsCollectionViewCell *cellBoard = (QTBoardsCollectionViewCell *) cell;
-            if (self.dataSourceBoards.count > 0) {
-                //                cellBoard.board = self.dataSourceBoards[indexPath.row];
-            }
+            [cellBoard setup];
         }
     } else if (collectionView.collectionViewCellType == CellTypeUsers) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:UserCollectionViewCellID forIndexPath:indexPath];
         if ([cell isKindOfClass:[QTUsersCollectionViewCell class]]) {
             QTUsersCollectionViewCell *cellUser = (QTUsersCollectionViewCell *) cell;
-            if (self.dataSourceUsers.count > 0) {
-                //                cellUser.user = self.dataSourceUsers[indexPath.row];
-            }
+            [cellUser setup];
         }
     }
     return cell;
 }
 
 - (void)collectionView:(QTCollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger index = indexPath.row;
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     if (collectionView.collectionViewCellType == CellTypeExplores) {
         //
+        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"Selected Item: %ld", index]];
     } else if (collectionView.collectionViewCellType == CellTypeBoards) {
         //
+        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"Selected Item: %ld", index]];
     } else if (collectionView.collectionViewCellType == CellTypeUsers) {
         //
+        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"Selected Item: %ld", index]];
     }
 }
 
@@ -188,7 +191,7 @@ static NSString *const kCellIdentifier = @"CellIdentifier";
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (![scrollView isKindOfClass:[UICollectionView class]]) return;
-    
+
     CGFloat horizontalOffset = scrollView.contentOffset.x;
     QTCollectionView *collectionView = (QTCollectionView *) scrollView;
     NSInteger index = collectionView.indexPath.row;
@@ -196,7 +199,6 @@ static NSString *const kCellIdentifier = @"CellIdentifier";
 }
 
 - (void)refreshData {
-    
 }
 
 @end

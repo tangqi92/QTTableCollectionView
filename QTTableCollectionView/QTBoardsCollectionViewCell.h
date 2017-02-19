@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QTBoardModel.h"
 
 @interface QTBoardsCollectionViewCell : UICollectionViewCell
+
+@property (nonatomic, strong) QTBoardModel *boardModel;
+- (void)setup;
 
 @end
