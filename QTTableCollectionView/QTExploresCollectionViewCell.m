@@ -31,7 +31,6 @@
 
 - (void)initViews {
     _coverView = [UIView new];
-    _coverView.backgroundColor = [UIColor redColor];
     [self.contentView addSubview:_coverView];
 }
 
@@ -44,7 +43,13 @@
 }
 
 - (void)setExploreModel:(QTExploreModel *)exploreModel {
-    
+    //
+    self.coverView.backgroundColor = [UIColor redColor];
+}
+
+- (void)setup {
+    self.coverView.backgroundColor = [UIColor redColor];
+
 }
 
 @end

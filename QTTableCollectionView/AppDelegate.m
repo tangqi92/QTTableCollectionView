@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "QTTableViewController.h"
+#import <FLEX/FLEXManager.h>
 
 @interface AppDelegate ()
 
@@ -17,6 +19,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [[FLEXManager sharedManager] showExplorer];
+
+    // 创建窗口
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor =[UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+
+    QTTableViewController *tableViewController = [[QTTableViewController alloc] initWithStyle:UITableViewStylePlain];
+    self.window.rootViewController = tableViewController;
+
     return YES;
 }
 

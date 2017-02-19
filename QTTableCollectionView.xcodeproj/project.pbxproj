@@ -8,10 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2386A684FE1115B167E934A7 /* libPods-QTTableCollectionView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61D37D8E9DE0F83FFFD93EE1 /* libPods-QTTableCollectionView.a */; };
+		358089EF1E59741900121F45 /* QTTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 358089EE1E59741900121F45 /* QTTableViewController.m */; };
 		35EDAAAB1E587A8500D02242 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EDAAAA1E587A8500D02242 /* main.m */; };
 		35EDAAAE1E587A8500D02242 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EDAAAD1E587A8500D02242 /* AppDelegate.m */; };
-		35EDAAB11E587A8500D02242 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EDAAB01E587A8500D02242 /* ViewController.m */; };
-		35EDAAB41E587A8500D02242 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35EDAAB21E587A8500D02242 /* Main.storyboard */; };
 		35EDAAB61E587A8500D02242 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35EDAAB51E587A8500D02242 /* Assets.xcassets */; };
 		35EDAAB91E587A8500D02242 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35EDAAB71E587A8500D02242 /* LaunchScreen.storyboard */; };
 		35EDAAC41E587A8500D02242 /* QTTableCollectionViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EDAAC31E587A8500D02242 /* QTTableCollectionViewTests.m */; };
@@ -44,13 +43,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		358089ED1E59741900121F45 /* QTTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QTTableViewController.h; sourceTree = "<group>"; };
+		358089EE1E59741900121F45 /* QTTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QTTableViewController.m; sourceTree = "<group>"; };
 		35EDAAA61E587A8500D02242 /* QTTableCollectionView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QTTableCollectionView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35EDAAAA1E587A8500D02242 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		35EDAAAC1E587A8500D02242 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		35EDAAAD1E587A8500D02242 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		35EDAAAF1E587A8500D02242 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		35EDAAB01E587A8500D02242 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		35EDAAB31E587A8500D02242 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		35EDAAB51E587A8500D02242 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		35EDAAB81E587A8500D02242 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		35EDAABA1E587A8500D02242 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -140,8 +138,8 @@
 		358089EC1E595F2600121F45 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				35EDAAAF1E587A8500D02242 /* ViewController.h */,
-				35EDAAB01E587A8500D02242 /* ViewController.m */,
+				358089ED1E59741900121F45 /* QTTableViewController.h */,
+				358089EE1E59741900121F45 /* QTTableViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -176,7 +174,6 @@
 				358089EC1E595F2600121F45 /* Controller */,
 				35EDAAAC1E587A8500D02242 /* AppDelegate.h */,
 				35EDAAAD1E587A8500D02242 /* AppDelegate.m */,
-				35EDAAB21E587A8500D02242 /* Main.storyboard */,
 				35EDAAB51E587A8500D02242 /* Assets.xcassets */,
 				35EDAAB71E587A8500D02242 /* LaunchScreen.storyboard */,
 				35EDAABA1E587A8500D02242 /* Info.plist */,
@@ -339,7 +336,6 @@
 			files = (
 				35EDAAB91E587A8500D02242 /* LaunchScreen.storyboard in Resources */,
 				35EDAAB61E587A8500D02242 /* Assets.xcassets in Resources */,
-				35EDAAB41E587A8500D02242 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,7 +410,7 @@
 			files = (
 				35EDAAF01E588A7B00D02242 /* QTExploreModel.m in Sources */,
 				35EDAAF31E588A8F00D02242 /* QTUserModel.m in Sources */,
-				35EDAAB11E587A8500D02242 /* ViewController.m in Sources */,
+				358089EF1E59741900121F45 /* QTTableViewController.m in Sources */,
 				35EDAAF61E588AE100D02242 /* QTCollectionView.m in Sources */,
 				35EDAAAE1E587A8500D02242 /* AppDelegate.m in Sources */,
 				35EDAAE71E58865500D02242 /* QTUsersCollectionViewCell.m in Sources */,
@@ -458,14 +454,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		35EDAAB21E587A8500D02242 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				35EDAAB31E587A8500D02242 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		35EDAAB71E587A8500D02242 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

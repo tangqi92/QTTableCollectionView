@@ -12,5 +12,6 @@
 @interface QTExploresCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) QTExploreModel *exploreModel;
+- (void)setup;
 
 @end
