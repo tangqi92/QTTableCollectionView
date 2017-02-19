@@ -8,6 +8,7 @@
 
 #import "QTExploresCollectionViewCell.h"
 #import <Masonry/Masonry.h>
+#import "QTExploreModel.h"
 
 @interface QTExploresCollectionViewCell ()
 
@@ -30,6 +31,7 @@
 
 - (void)initViews {
     _coverView = [UIView new];
+    _coverView.backgroundColor = [UIColor redColor];
     [self.contentView addSubview:_coverView];
 }
 
@@ -41,16 +43,8 @@
     }];
 }
 
-- (void)setExplore:(HBExplore *)explore {
-    _explore = explore;
-    HBCover *cover = explore.cover;
-    [self.coverImageView sd_setImageWithURL:[cover squareCoverURL]];
-    NSMutableAttributedString *attrAext = [[NSMutableAttributedString alloc] initWithString:explore.name];
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    style.firstLineHeadIndent = 10;
-    [attrAext addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, attrAext.length)];
-    self.titleLabel.attributedText = attrAext;
-    self.titleLabel.backgroundColor = [UIColor colorFromHexRGB:[NSString stringWithFormat:@"#%@", explore.theme] alpha:0.92f];
+- (void)setExploreModel:(QTExploreModel *)exploreModel {
+    
 }
 
 @end

@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QTExploreModel.h"
 
 @interface QTExploresCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, strong) 
+@property (nonatomic, strong) QTExploreModel *exploreModel;
+
 @end
